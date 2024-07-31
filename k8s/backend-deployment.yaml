@@ -20,22 +20,4 @@ spec:
         - containerPort: 5000
         env:
         - name: API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: api-key-secret
-              key: API_KEY
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend-service
-  namespace: backend-namespace
-spec:
-  type: LoadBalancer
-  loadBalancerIP: 34.67.42.139
-  selector:
-    app: backend
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 5000
+          value: "AIzaSyD1ESj55DdJsIKddtjKqnMQCRnVzEy6-ik"
