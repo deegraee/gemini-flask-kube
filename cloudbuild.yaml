@@ -29,7 +29,7 @@ steps:
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/backend-service.yaml', '--namespace=backend-namespace']
-    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster']
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/frontend-deployment.yaml', '--namespace=frontend-namespace']
@@ -37,7 +37,7 @@ steps:
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'k8s/frontend-service.yaml', '--namespace=frontend-namespace']
-    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=test-cluster']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster']
 
 
 options:
