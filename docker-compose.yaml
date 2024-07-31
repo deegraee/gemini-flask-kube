@@ -1,0 +1,27 @@
+
+services:
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "5000:5000"
+    environment:
+      API_KEY: "AIzaSyD-pJmgwtZKuP6lY7uS28jcTXkpF904h8g"
+    networks:
+      - devops-network
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - devops-network
+
+networks:
+  devops-network:
+    driver: bridge
