@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const backendUrl = 'http://localhost:5000';
+    const backendUrl = 'http://34.67.42.139';
 
     async function checkBackendConnection() {
         const backend_status = document.getElementById('backend-status');

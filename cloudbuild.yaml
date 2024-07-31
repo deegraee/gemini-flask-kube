@@ -1,0 +1,40 @@
+steps:
+  # Build Docker images for the backend and frontend
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/micro-docker-test/gemini-backend:latest', './backend']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/micro-docker-test/gemini-frontend:latest', './frontend']
+
+    # Push images to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/micro-docker-test/gemini-backend:latest']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/micro-docker-test/gemini-frontend:latest']
+
+    # Create cluster namespace
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'k8s/backend-namespace.yaml']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'k8s/frontend-namespace.yaml']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster']
+
+    # Deploy to GKE
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'k8s/api-key-secret.yaml', '--namespace=backend-namespace']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'k8s/backend-deployment.yaml', '--namespace=backend-namespace']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    args: ['apply', '-f', 'k8s/frontend-deployment.yaml', '--namespace=frontend-namespace']
+    env: ['CLOUDSDK_COMPUTE_ZONE=us-central1-a', 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster']
+
+
+options:
+  logging: CLOUD_LOGGING_ONLY
