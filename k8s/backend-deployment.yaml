@@ -20,4 +20,4 @@ spec:
         - containerPort: 5000
         env:
         - name: API_KEY
-          value: "AIzaSyD1ESj55DdJsIKddtjKqnMQCRnVzEy6-ik"
+          value:""
